@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("© 2018 Roland Pheasant")]
 [assembly: AssemblyDescription("Tail blazer is a file tail utility")]
-[assembly: AssemblyFileVersion("0.0.0.2")]
+[assembly: AssemblyFileVersion("0.0.0.3")]
 [assembly: AssemblyInformationalVersion("0.0")]
 [assembly: AssemblyProduct("TailBlazer")]
 [assembly: AssemblyTitle("Tail Blazer")]
