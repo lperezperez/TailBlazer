@@ -5,6 +5,5 @@ namespace TailBlazer.Infrastucture.AppState
         Startup,
         ShuttingDown,
         ShutDown
-
     }
 }

@@ -1,79 +1,61 @@
-using System;
-using TailBlazer.Domain.FileHandling.Search;
-
 namespace TailBlazer.Domain.Formatting
 {
+    using System;
+    using TailBlazer.Domain.FileHandling.Search;
     public class MatchedString : IEquatable<MatchedString>
     {
+        #region Fields
         private readonly SearchMetadata _metadata;
-        public string Part { get; }
-
-        public bool IsMatch { get; }
-
-        public Hue Hue => _metadata?.HighlightHue;
-
+        #endregion
+        #region Constructors
         public MatchedString(string part)
         {
-            Part = part;
-            IsMatch = false;
+            this.Part = part;
+            this.IsMatch = false;
         }
-
         public MatchedString(string part, bool isMatch)
         {
-            Part = part;
-            IsMatch = isMatch;
+            this.Part = part;
+            this.IsMatch = isMatch;
         }
-
         public MatchedString(string part, SearchMetadata metadata)
         {
-            _metadata = metadata;
-            Part = part;
-            IsMatch = true;
+            this._metadata = metadata;
+            this.Part = part;
+            this.IsMatch = true;
         }
-
-
-        #region Equality
-
-        public bool Equals(MatchedString other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return string.Equals(Part, other.Part) && IsMatch == other.IsMatch;
-        }
-
+        #endregion
+        #region Properties
+        public Hue Hue => this._metadata?.HighlightHue;
+        public bool IsMatch { get; }
+        public string Part { get; }
+        #endregion
+        #region Methods
+        public static bool operator ==(MatchedString left, MatchedString right) => object.Equals(left, right);
+        public static bool operator !=(MatchedString left, MatchedString right) => !object.Equals(left, right);
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
+            if (object.ReferenceEquals(null, obj)) return false;
+            if (object.ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((MatchedString) obj);
+            return this.Equals((MatchedString)obj);
         }
-
         public override int GetHashCode()
         {
             unchecked
             {
-                var hashCode = Part?.GetHashCode() ?? 0;
-                hashCode = (hashCode*397) ^ IsMatch.GetHashCode();
+                var hashCode = this.Part?.GetHashCode() ?? 0;
+                hashCode = (hashCode * 397) ^ this.IsMatch.GetHashCode();
                 return hashCode;
             }
         }
-
-        public static bool operator ==(MatchedString left, MatchedString right)
+        public override string ToString() => $"{this.Part}, ({this.IsMatch})";
+        public bool Equals(MatchedString other)
         {
-            return Equals(left, right);
+            if (object.ReferenceEquals(null, other)) return false;
+            if (object.ReferenceEquals(this, other)) return true;
+            return string.Equals(this.Part, other.Part) && this.IsMatch == other.IsMatch;
         }
-
-        public static bool operator !=(MatchedString left, MatchedString right)
-        {
-            return !Equals(left, right);
-        }
-
         #endregion
-
-        public override string ToString()
-        {
-            return $"{Part}, ({IsMatch})";
-        }
     }
 }

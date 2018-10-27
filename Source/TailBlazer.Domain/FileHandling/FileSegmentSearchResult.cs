@@ -1,26 +1,27 @@
-using System;
-
 namespace TailBlazer.Domain.FileHandling
 {
+    using System;
     public class FileSegmentSearchResult
     {
-        public long Start { get; }
-        public long End { get; }
-        public long[] Indicies { get; }
-
+        #region Constructors
         public FileSegmentSearchResult(long start, long end)
         {
-            Start = start;
-            End = end;
-            Indicies = new long[0];
+            this.Start = start;
+            this.End = end;
+            this.Indicies = new long[0];
         }
-
         public FileSegmentSearchResult(long start, long end, long[] indicies)
         {
             if (indicies == null) throw new ArgumentNullException(nameof(indicies));
-            Start = start;
-            End = end;
-            Indicies = indicies;
+            this.Start = start;
+            this.End = end;
+            this.Indicies = indicies;
         }
+        #endregion
+        #region Properties
+        public long End { get; }
+        public long[] Indicies { get; }
+        public long Start { get; }
+        #endregion
     }
 }

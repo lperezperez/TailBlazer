@@ -1,34 +1,24 @@
-using System;
-using System.Reactive.Disposables;
-using System.Reactive.Linq;
-using DynamicData.Binding;
-using TailBlazer.Domain.FileHandling.Search;
-using TailBlazer.Domain.Infrastructure;
-
 namespace TailBlazer.Views.Searching
 {
+    using System;
+    using System.Reactive.Disposables;
+    using System.Reactive.Linq;
+    using DynamicData.Binding;
+    using TailBlazer.Domain.FileHandling.Search;
+    using TailBlazer.Domain.Infrastructure;
     // ReSharper disable once ClassNeverInstantiated.Global
     public class SearchOptionsViewModel : AbstractNotifyPropertyChanged, IDisposable
     {
-        public Guid Id { get; } = Guid.NewGuid();
-
+        #region Fields
         private readonly IDisposable _cleanUp;
         private int _selectedIndex;
-        public SearchHints SearchHints { get; }
-        public ISearchProxyCollection Local { get; }
-        public ISearchProxyCollection Global { get; }
-
-        public SearchOptionsViewModel(ICombinedSearchMetadataCollection combinedSearchMetadataCollection,
-            ISearchProxyCollectionFactory searchProxyCollectionFactory,
-            ISearchMetadataFactory searchMetadataFactory,
-            ISchedulerProvider schedulerProvider,
-            SearchHints searchHints)
+        #endregion
+        #region Constructors
+        public SearchOptionsViewModel(ICombinedSearchMetadataCollection combinedSearchMetadataCollection, ISearchProxyCollectionFactory searchProxyCollectionFactory, ISearchMetadataFactory searchMetadataFactory, ISchedulerProvider schedulerProvider, SearchHints searchHints)
         {
-            SearchHints = searchHints;
-
+            this.SearchHints = searchHints;
             var global = combinedSearchMetadataCollection.Global;
             var local = combinedSearchMetadataCollection.Local;
-
             void ChangeScopeAction(SearchMetadata meta)
             {
                 if (meta.IsGlobal)
@@ -46,50 +36,34 @@ namespace TailBlazer.Views.Searching
                     global.AddorUpdate(newValue);
                 }
             }
-
-            Local = searchProxyCollectionFactory.Create(local, Id, ChangeScopeAction);
-            Global = searchProxyCollectionFactory.Create(global, Id, ChangeScopeAction);
+            this.Local = searchProxyCollectionFactory.Create(local, this.Id, ChangeScopeAction);
+            this.Global = searchProxyCollectionFactory.Create(global, this.Id, ChangeScopeAction);
 
             //command to add the current search to the tail collection
-            var searchInvoker = SearchHints.SearchRequested
-                .ObserveOn(schedulerProvider.Background)
-                .Subscribe(request =>
-                {
-                    var isGlobal = SelectedIndex == 1;
-                    var nextIndex = isGlobal ? global.NextIndex() : local.NextIndex();
-
-                    var meta = searchMetadataFactory.Create(request.Text,
-                        request.UseRegEx,
-                        nextIndex,
-                        false,
-                        isGlobal);
-
-                    if (isGlobal)
-                    {
-                        global.AddorUpdate(meta);
-                    }
-                    else
-                    {
-                        local.AddorUpdate(meta);
-                    }
-                });
-
-            _cleanUp = new CompositeDisposable(searchInvoker,
-                searchInvoker,
-                SearchHints,
-                Global,
-                Local);
+            var searchInvoker = this.SearchHints.SearchRequested.ObserveOn(schedulerProvider.Background).Subscribe
+                (
+                 request =>
+                     {
+                         var isGlobal = this.SelectedIndex == 1;
+                         var nextIndex = isGlobal ? global.NextIndex() : local.NextIndex();
+                         var meta = searchMetadataFactory.Create(request.Text, request.UseRegEx, nextIndex, false, isGlobal);
+                         if (isGlobal)
+                             global.AddorUpdate(meta);
+                         else
+                             local.AddorUpdate(meta);
+                     });
+            this._cleanUp = new CompositeDisposable(searchInvoker, searchInvoker, this.SearchHints, this.Global, this.Local);
         }
-
-        public int SelectedIndex
-        {
-            get => _selectedIndex;
-            set => SetAndRaise(ref _selectedIndex, value);
-        }
-
-        public void Dispose()
-        {
-            _cleanUp.Dispose();
-        }
+        #endregion
+        #region Properties
+        public ISearchProxyCollection Global { get; }
+        public Guid Id { get; } = Guid.NewGuid();
+        public ISearchProxyCollection Local { get; }
+        public SearchHints SearchHints { get; }
+        public int SelectedIndex { get => this._selectedIndex; set => this.SetAndRaise(ref this._selectedIndex, value); }
+        #endregion
+        #region Methods
+        public void Dispose() { this._cleanUp.Dispose(); }
+        #endregion
     }
 }

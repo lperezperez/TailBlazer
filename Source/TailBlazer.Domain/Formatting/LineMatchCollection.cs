@@ -1,28 +1,26 @@
-
-using System.Linq;
-using DynamicData.Binding;
-
 namespace TailBlazer.Domain.Formatting
 {
-    public class LineMatchCollection: AbstractNotifyPropertyChanged
+    using System.Linq;
+    using DynamicData.Binding;
+    public class LineMatchCollection : AbstractNotifyPropertyChanged
     {
-        public static  readonly LineMatchCollection Empty = new LineMatchCollection(new LineMatch[0]);
-
-        public int Count => Matches.Length;
-
-        public LineMatch[] Matches { get; }
-        
-        public LineMatch FirstMatch { get; }
-
-        public bool IsRegex => FirstMatch!=null && FirstMatch.UseRegex;
-        public bool IsFilter => FirstMatch != null && !FirstMatch.UseRegex;
-        public bool HasMatches => Matches.Length != 0;
-
+        #region Fields
+        public static readonly LineMatchCollection Empty = new LineMatchCollection(new LineMatch[0]);
+        #endregion
+        #region Constructors
         public LineMatchCollection(LineMatch[] matches)
         {
-            Matches = matches;
-            FirstMatch = matches.FirstOrDefault();
+            this.Matches = matches;
+            this.FirstMatch = matches.FirstOrDefault();
         }
-
+        #endregion
+        #region Properties
+        public int Count => this.Matches.Length;
+        public LineMatch FirstMatch { get; }
+        public bool HasMatches => this.Matches.Length != 0;
+        public bool IsFilter => this.FirstMatch != null && !this.FirstMatch.UseRegex;
+        public bool IsRegex => this.FirstMatch != null && this.FirstMatch.UseRegex;
+        public LineMatch[] Matches { get; }
+        #endregion
     }
 }

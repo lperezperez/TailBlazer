@@ -1,28 +1,28 @@
-using System;
-using System.IO;
-using TailBlazer.Domain.FileHandling.Search;
-
 namespace TailBlazer.Domain.FileHandling.TextAssociations
 {
-    public sealed  class TextAssociation
+    using System;
+    public sealed class TextAssociation
     {
-        public string Text { get; }
-        public bool IgnoreCase { get;  }
-        public bool UseRegEx { get;  }
-        public string Swatch { get; }
-        public string Hue { get; }
-        public DateTime DateTime { get;  }
-        public string Icon { get; }
-
+        #region Constructors
         public TextAssociation(string text, bool ignoreCase, bool useRegEx, string swatch, string icon, string hue, DateTime dateTime)
         {
-            Text = text;
-            IgnoreCase = ignoreCase;
-            UseRegEx = useRegEx;
-            Swatch = swatch;
-            Icon = icon;
-            Hue = hue;
-            DateTime = dateTime;
+            this.Text = text;
+            this.IgnoreCase = ignoreCase;
+            this.UseRegEx = useRegEx;
+            this.Swatch = swatch;
+            this.Icon = icon;
+            this.Hue = hue;
+            this.DateTime = dateTime;
         }
+        #endregion
+        #region Properties
+        public DateTime DateTime { get; }
+        public string Hue { get; }
+        public string Icon { get; }
+        public bool IgnoreCase { get; }
+        public string Swatch { get; }
+        public string Text { get; }
+        public bool UseRegEx { get; }
+        #endregion
     }
 }

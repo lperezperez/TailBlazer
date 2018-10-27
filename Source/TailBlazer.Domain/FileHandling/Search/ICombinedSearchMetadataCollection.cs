@@ -1,12 +1,13 @@
-using System;
-using DynamicData;
-
 namespace TailBlazer.Domain.FileHandling.Search
 {
+    using System;
+    using DynamicData;
     public interface ICombinedSearchMetadataCollection : IDisposable
     {
+        #region Properties
         IObservableCache<SearchMetadata, string> Combined { get; }
-        ISearchMetadataCollection Local { get; }
         ISearchMetadataCollection Global { get; }
+        ISearchMetadataCollection Local { get; }
+        #endregion
     }
 }

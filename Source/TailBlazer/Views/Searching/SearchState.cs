@@ -1,36 +1,35 @@
 namespace TailBlazer.Views.Searching
 {
-    public sealed  class SearchState
+    public sealed class SearchState
     {
-        public string Text { get; }
-        public int Position { get;  }
-        public bool UseRegEx { get;  }
-        public bool Highlight { get; }
-        public bool Filter { get; }
-        public bool Alert { get; }
-        public bool IgnoreCase { get; }
-
-        public string Swatch { get; }
-
-        public string Hue { get; }
-        public bool IsExclusion { get;  }
-
-        public string Icon { get; }
-
-        public SearchState(string text,int position, bool useRegEx, bool highlight, bool filter, bool alert, 
-            bool ignoreCase, string swatch, string icon, string hue, bool isExclusion)
+        #region Constructors
+        public SearchState(string text, int position, bool useRegEx, bool highlight, bool filter, bool alert, bool ignoreCase, string swatch, string icon, string hue, bool isExclusion)
         {
-            Text = text;
-            Position = position;
-            UseRegEx = useRegEx;
-            Highlight = highlight;
-            Filter = filter;
-            Alert = alert;
-            IgnoreCase = ignoreCase;
-            Swatch = swatch;
-            Icon = icon;
-            Hue = hue;
-            IsExclusion = isExclusion;
+            this.Text = text;
+            this.Position = position;
+            this.UseRegEx = useRegEx;
+            this.Highlight = highlight;
+            this.Filter = filter;
+            this.Alert = alert;
+            this.IgnoreCase = ignoreCase;
+            this.Swatch = swatch;
+            this.Icon = icon;
+            this.Hue = hue;
+            this.IsExclusion = isExclusion;
         }
+        #endregion
+        #region Properties
+        public bool Alert { get; }
+        public bool Filter { get; }
+        public bool Highlight { get; }
+        public string Hue { get; }
+        public string Icon { get; }
+        public bool IgnoreCase { get; }
+        public bool IsExclusion { get; }
+        public int Position { get; }
+        public string Swatch { get; }
+        public string Text { get; }
+        public bool UseRegEx { get; }
+        #endregion
     }
 }

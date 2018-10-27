@@ -1,47 +1,27 @@
-﻿<Application
-    x:Class="TailBlazer.App"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="clr-namespace:TailBlazer.Controls"
-    xmlns:fileDrop="clr-namespace:TailBlazer.Views.FileDrop"
-    xmlns:searching="clr-namespace:TailBlazer.Views.Searching"
-    xmlns:tail="clr-namespace:TailBlazer.Views.Tail">
+﻿<Application x:Class="TailBlazer.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:TailBlazer.Controls" xmlns:fileDrop="clr-namespace:TailBlazer.Views.FileDrop" xmlns:searching="clr-namespace:TailBlazer.Views.Searching" xmlns:tail="clr-namespace:TailBlazer.Views.Tail">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/TailBlazer;component/Themes/Colours.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
             <DataTemplate DataType="{x:Type searching:SearchOptionsViewModel}">
                 <searching:SearchOptionsView />
             </DataTemplate>
-
             <DataTemplate DataType="{x:Type searching:IconSelector}">
                 <searching:IconSelectorView />
             </DataTemplate>
-
             <DataTemplate DataType="{x:Type tail:TailViewModel}">
                 <tail:TailView />
             </DataTemplate>
-
             <DataTemplate DataType="{x:Type fileDrop:FileDropContainer}">
                 <Grid TextElement.Foreground="{DynamicResource MaterialDesignBody}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-
-                    <controls:FileIcon
-                        Width="22"
-                        Height="22"
-                        BorderThickness="0"
-                        Foreground="{DynamicResource PrimaryHueMidBrush}" />
-
-                    <ItemsControl
-                        Grid.Column="1"
-                        Margin="4"
-                        ItemsSource="{Binding Files}" />
+                    <controls:FileIcon Width="22" Height="22" BorderThickness="0" Foreground="{DynamicResource PrimaryHueMidBrush}" />
+                    <ItemsControl Grid.Column="1" Margin="4" ItemsSource="{Binding Files}" />
                 </Grid>
             </DataTemplate>
         </ResourceDictionary>

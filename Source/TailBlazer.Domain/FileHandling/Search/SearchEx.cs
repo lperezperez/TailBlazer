@@ -1,20 +1,15 @@
-using System;
-using System.Text.RegularExpressions;
-using DynamicData.Kernel;
-
 namespace TailBlazer.Domain.FileHandling.Search
 {
+    using System;
+    using System.Text.RegularExpressions;
+    using DynamicData.Kernel;
     public static class SearchEx
     {
+        #region Methods
         public static Func<string, bool> BuildPredicate(this SearchMetadata source)
         {
-            const RegexOptions caseInsensitiveOptions = RegexOptions.IgnorePatternWhitespace
-                                                        | RegexOptions.Compiled
-                                                        | RegexOptions.IgnoreCase;
-
-            const RegexOptions caseSensitiveOptions = RegexOptions.IgnorePatternWhitespace
-                                                      | RegexOptions.Compiled;
-
+            const RegexOptions caseInsensitiveOptions = RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled | RegexOptions.IgnoreCase;
+            const RegexOptions caseSensitiveOptions = RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled;
             Func<string, bool> predicate;
             if (!source.UseRegex)
             {
@@ -29,18 +24,10 @@ namespace TailBlazer.Domain.FileHandling.Search
             }
             return predicate;
         }
-
         public static Optional<Regex> BuildRegEx(this SearchMetadata source)
         {
-            
-            const RegexOptions caseInsensitiveOptions = RegexOptions.IgnorePatternWhitespace
-                                                        | RegexOptions.Compiled
-                                                        | RegexOptions.IgnoreCase;
-
-            const RegexOptions caseSensitiveOptions = RegexOptions.IgnorePatternWhitespace
-                                                      | RegexOptions.Compiled;
-
-
+            const RegexOptions caseInsensitiveOptions = RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled | RegexOptions.IgnoreCase;
+            const RegexOptions caseSensitiveOptions = RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled;
             if (source.UseRegex)
             {
                 var options = source.IgnoreCase ? caseInsensitiveOptions : caseSensitiveOptions;
@@ -48,6 +35,6 @@ namespace TailBlazer.Domain.FileHandling.Search
             }
             return Optional<Regex>.None;
         }
+        #endregion
     }
 }
-

@@ -1,61 +1,28 @@
-﻿using System;
-
-namespace TailBlazer.Domain
+﻿namespace TailBlazer.Domain
 {
+    using System;
     public struct CaseInsensitiveString : IEquatable<CaseInsensitiveString>
     {
-        private readonly string _original;
+        #region Fields
         private static readonly StringComparer Comparer = StringComparer.OrdinalIgnoreCase;
-        
-        public CaseInsensitiveString(string source)
-        {
-            _original = source;
-        }
-        
-        public static implicit operator string(CaseInsensitiveString source)
-        {
-            return source._original;
-        }
-
-        public static implicit operator CaseInsensitiveString(string source)
-        {
-            return new CaseInsensitiveString(source);
-        }
-
-        #region Equality
-
-        public bool Equals(CaseInsensitiveString other)
-        {
-            return Comparer.Equals(_original, other);
-
-        }
-
+        private readonly string _original;
+        #endregion
+        #region Constructors
+        public CaseInsensitiveString(string source) { this._original = source; }
+        #endregion
+        #region Methods
+        public static bool operator ==(CaseInsensitiveString left, CaseInsensitiveString right) => Comparer.Equals(left, right);
+        public static implicit operator string(CaseInsensitiveString source) => source._original;
+        public static implicit operator CaseInsensitiveString(string source) => new CaseInsensitiveString(source);
+        public static bool operator !=(CaseInsensitiveString left, CaseInsensitiveString right) => !Comparer.Equals(left, right);
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            return obj is CaseInsensitiveString && Equals((CaseInsensitiveString) obj);
+            if (object.ReferenceEquals(null, obj)) return false;
+            return obj is CaseInsensitiveString && this.Equals((CaseInsensitiveString)obj);
         }
-
-        public override int GetHashCode()
-        {
-            return Comparer.GetHashCode(this);
-        }
-
-        public static bool operator ==(CaseInsensitiveString left, CaseInsensitiveString right)
-        {
-            return Comparer.Equals(left, right);
-        }
-
-        public static bool operator !=(CaseInsensitiveString left, CaseInsensitiveString right)
-        {
-            return !Comparer.Equals(left, right);
-        }
-
+        public override int GetHashCode() => Comparer.GetHashCode(this);
+        public override string ToString() => this._original;
+        public bool Equals(CaseInsensitiveString other) => Comparer.Equals(this._original, other);
         #endregion
-
-        public override string ToString()
-        {
-            return _original;
-        }
     }
 }

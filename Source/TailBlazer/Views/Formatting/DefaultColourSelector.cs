@@ -1,68 +1,60 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using DynamicData;
-using DynamicData.Kernel;
-using TailBlazer.Domain.FileHandling.Search;
-using TailBlazer.Domain.Formatting;
-
 namespace TailBlazer.Views.Formatting
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using DynamicData;
+    using DynamicData.Kernel;
+    using TailBlazer.Domain.FileHandling.Search;
+    using TailBlazer.Domain.Formatting;
     public sealed class DefaultColourSelector : IDefaultColourSelector
     {
+        #region Fields
         private readonly IColourProvider _colourProvider;
         private readonly DefaultHue[] _defaults;
-
+        #endregion
+        #region Constructors
         public DefaultColourSelector(IColourProvider colourProvider)
         {
-            _colourProvider = colourProvider;
-            _defaults = Load().ToArray();
+            this._colourProvider = colourProvider;
+            this._defaults = this.Load().ToArray();
         }
-        
+        #endregion
+        #region Methods
+        public Hue Lookup(HueKey key) { return this._colourProvider.Lookup(key).ValueOr(() => this._colourProvider.DefaultAccent); }
         public Hue Select(string text)
         {
-            var match = _defaults
-                .FirstOrDefault(hue => hue.MatchTextOnCase
-                    ? hue.Text.Equals(text)
-                    : hue.Text.Equals(text, StringComparison.OrdinalIgnoreCase));
-
-            return match != null ? match.Hue : _colourProvider.DefaultAccent;
+            var match = this._defaults.FirstOrDefault(hue => hue.MatchTextOnCase ? hue.Text.Equals(text) : hue.Text.Equals(text, StringComparison.OrdinalIgnoreCase));
+            return match != null ? match.Hue : this._colourProvider.DefaultAccent;
         }
-
-        public Hue Lookup(HueKey key)
-        {
-            return _colourProvider.Lookup(key).ValueOr(() => _colourProvider.DefaultAccent);
-        }
-
         private IEnumerable<DefaultHue> Load()
         {
-            yield return new DefaultHue("DEBUG", Lookup("blue", "Accent400"));
-            yield return new DefaultHue("INFO", Lookup("deeppurple", "Accent200"));
-            yield return new DefaultHue("WARN", Lookup("orange", "Accent700"));
-            yield return new DefaultHue("WARNING", Lookup("orange", "Accent700"));
-            yield return new DefaultHue("ERROR", Lookup("red", "Accent400"));
-            yield return new DefaultHue("FATAL", Lookup("red", "Accent700"));
-
+            yield return new DefaultHue("DEBUG", this.Lookup("blue", "Accent400"));
+            yield return new DefaultHue("INFO", this.Lookup("deeppurple", "Accent200"));
+            yield return new DefaultHue("WARN", this.Lookup("orange", "Accent700"));
+            yield return new DefaultHue("WARNING", this.Lookup("orange", "Accent700"));
+            yield return new DefaultHue("ERROR", this.Lookup("red", "Accent400"));
+            yield return new DefaultHue("FATAL", this.Lookup("red", "Accent700"));
         }
-
-        private Hue Lookup(string swatch, string name)
-        {
-            return _colourProvider.Lookup(new HueKey(swatch, name))
-                .ValueOrThrow(() => new MissingKeyException(swatch + "."+ name + " is invalid"));
-        }
-
+        private Hue Lookup(string swatch, string name) { return this._colourProvider.Lookup(new HueKey(swatch, name)).ValueOrThrow(() => new MissingKeyException(swatch + "." + name + " is invalid")); }
+        #endregion
+        #region Classes
         private class DefaultHue
         {
-            public string Text { get; }
-            public Hue Hue { get; }
-            public bool MatchTextOnCase { get; }
-
+            #region Constructors
             public DefaultHue(string text, Hue hue, bool matchTextOnCase = false)
             {
-                Text = text;
-                Hue = hue;
-                MatchTextOnCase = matchTextOnCase;
+                this.Text = text;
+                this.Hue = hue;
+                this.MatchTextOnCase = matchTextOnCase;
             }
+            #endregion
+            #region Properties
+            public Hue Hue { get; }
+            public bool MatchTextOnCase { get; }
+            public string Text { get; }
+            #endregion
         }
+        #endregion
     }
 }

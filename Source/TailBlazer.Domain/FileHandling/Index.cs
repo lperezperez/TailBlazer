@@ -1,107 +1,84 @@
-using System;
-using TailBlazer.Domain.Annotations;
-using TailBlazer.Domain.Infrastructure;
-
 namespace TailBlazer.Domain.FileHandling
 {
+    using System;
+    using TailBlazer.Domain.Annotations;
+    using TailBlazer.Domain.Infrastructure;
     public class Index : IEquatable<Index>
     {
-        public long Start { get; }
-        public long End { get; }
-        public ImmutableList<long> Indicies { get; }
-        public int Compression { get; }
-        public int LineCount { get; }
-        public int IndexCount => Indicies.Count;
-
-        public IndexType Type { get; }
-
-        public long Size => End - Start;
-
-        public DateTime TimeStamp { get; } = DateTime.UtcNow;
-
+        #region Constructors
         public Index(long start, long end, long[] indicies, int compression, int lineCount, IndexType type)
         {
-            Start = start;
-            End = end;
-            Indicies = new ImmutableList<long>(indicies);
-            Compression = compression;
-            LineCount = lineCount;
-            Type = type;
+            this.Start = start;
+            this.End = end;
+            this.Indicies = new ImmutableList<long>(indicies);
+            this.Compression = compression;
+            this.LineCount = lineCount;
+            this.Type = type;
         }
-        
-
-        public Index(long start, long end,  int compression, int lineCount, IndexType type)
+        public Index(long start, long end, int compression, int lineCount, IndexType type)
         {
-            Start = start;
-            End = end;
-            Indicies = new ImmutableList<long>();
-            Compression = compression;
-            LineCount = lineCount;
-            Type = type;
+            this.Start = start;
+            this.End = end;
+            this.Indicies = new ImmutableList<long>();
+            this.Compression = compression;
+            this.LineCount = lineCount;
+            this.Type = type;
         }
-
         public Index([NotNull] Index latest, Index previous)
         {
             if (latest == null) throw new ArgumentNullException(nameof(latest));
             if (previous == null) throw new ArgumentNullException(nameof(previous));
-
-            Start = previous.Start;
-            End = latest.End;
-            Compression = latest.Compression;
-            LineCount = latest.LineCount + previous.LineCount;
-            Type = latest.Type;
+            this.Start = previous.Start;
+            this.End = latest.End;
+            this.Compression = latest.Compression;
+            this.LineCount = latest.LineCount + previous.LineCount;
+            this.Type = latest.Type;
 
             //combine latest arrays
-            Indicies = previous.Indicies.Add(latest.Indicies);
+            this.Indicies = previous.Indicies.Add(latest.Indicies);
         }
-
-        #region Equality
-
-
-        public bool Equals(Index other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return Start == other.Start && End == other.End && Compression == other.Compression && LineCount == other.LineCount && Type == other.Type && TimeStamp.Equals(other.TimeStamp);
-        }
-
+        #endregion
+        #region Properties
+        public int Compression { get; }
+        public long End { get; }
+        public int IndexCount => this.Indicies.Count;
+        public ImmutableList<long> Indicies { get; }
+        public int LineCount { get; }
+        public long Size => this.End - this.Start;
+        public long Start { get; }
+        public DateTime TimeStamp { get; } = DateTime.UtcNow;
+        public IndexType Type { get; }
+        #endregion
+        #region Methods
+        public static bool operator ==(Index left, Index right) => object.Equals(left, right);
+        public static bool operator !=(Index left, Index right) => !object.Equals(left, right);
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
+            if (object.ReferenceEquals(null, obj)) return false;
+            if (object.ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((Index) obj);
+            return this.Equals((Index)obj);
         }
-
         public override int GetHashCode()
         {
             unchecked
             {
-                var hashCode = Start.GetHashCode();
-                hashCode = (hashCode*397) ^ End.GetHashCode();
-                hashCode = (hashCode*397) ^ Compression;
-                hashCode = (hashCode*397) ^ LineCount;
-                hashCode = (hashCode*397) ^ (int) Type;
-                hashCode = (hashCode*397) ^ TimeStamp.GetHashCode();
+                var hashCode = this.Start.GetHashCode();
+                hashCode = (hashCode * 397) ^ this.End.GetHashCode();
+                hashCode = (hashCode * 397) ^ this.Compression;
+                hashCode = (hashCode * 397) ^ this.LineCount;
+                hashCode = (hashCode * 397) ^ (int)this.Type;
+                hashCode = (hashCode * 397) ^ this.TimeStamp.GetHashCode();
                 return hashCode;
             }
         }
-
-        public static bool operator ==(Index left, Index right)
+        public override string ToString() => $"{this.Type} {this.Start}->{this.End}  x{this.Compression} Compression. Lines: {this.LineCount}, Indicies: {this.IndexCount}, @ {this.TimeStamp}";
+        public bool Equals(Index other)
         {
-            return Equals(left, right);
+            if (object.ReferenceEquals(null, other)) return false;
+            if (object.ReferenceEquals(this, other)) return true;
+            return this.Start == other.Start && this.End == other.End && this.Compression == other.Compression && this.LineCount == other.LineCount && this.Type == other.Type && this.TimeStamp.Equals(other.TimeStamp);
         }
-
-        public static bool operator !=(Index left, Index right)
-        {
-            return !Equals(left, right);
-        }
-
         #endregion
-
-        public override string ToString()
-        {
-            return $"{Type} {Start}->{End}  x{Compression} Compression. Lines: {LineCount}, Indicies: {IndexCount}, @ {TimeStamp}";
-        }
     }
 }

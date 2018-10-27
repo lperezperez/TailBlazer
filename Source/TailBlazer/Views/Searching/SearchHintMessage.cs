@@ -1,21 +1,25 @@
-using System.ComponentModel;
-
 namespace TailBlazer.Views.Searching
 {
-    public class SearchHintMessage: INotifyPropertyChanged
+    using System.ComponentModel;
+    public class SearchHintMessage : INotifyPropertyChanged
     {
-        //implemented to prevent memory leaks
-        public event PropertyChangedEventHandler PropertyChanged;
+        #region Fields
         public static readonly SearchHintMessage Valid = new SearchHintMessage(true, null);
-
-        public bool IsValid { get; }
-        public string Message { get; }
-
+        #endregion
+        #region Constructors
         public SearchHintMessage(bool isValid, string message)
         {
-            IsValid = isValid;
-            Message = message;
+            this.IsValid = isValid;
+            this.Message = message;
         }
-
+        #endregion
+        #region Events
+        //implemented to prevent memory leaks
+        public event PropertyChangedEventHandler PropertyChanged;
+        #endregion
+        #region Properties
+        public bool IsValid { get; }
+        public string Message { get; }
+        #endregion
     }
 }

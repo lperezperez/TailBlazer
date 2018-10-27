@@ -1,24 +1,22 @@
-using System;
-
 namespace TailBlazer.Domain.FileHandling
 {
+    using System;
     public class TailInfo
     {
-
+        #region Fields
         public static readonly TailInfo None = new TailInfo();
-
-        public long TailStartsAt { get;  }
-        public DateTime LastTail { get;  }
-
-
+        #endregion
+        #region Constructors
         public TailInfo(long tailStartsAt)
         {
-            TailStartsAt = tailStartsAt;
-            LastTail = DateTime.UtcNow;
+            this.TailStartsAt = tailStartsAt;
+            this.LastTail = DateTime.UtcNow;
         }
-
-        private TailInfo()
-        {
-        }
+        private TailInfo() { }
+        #endregion
+        #region Properties
+        public DateTime LastTail { get; }
+        public long TailStartsAt { get; }
+        #endregion
     }
 }

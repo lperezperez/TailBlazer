@@ -1,28 +1,24 @@
-﻿using System.ComponentModel;
-using MahApps.Metro.Controls;
-using TailBlazer.Views.WindowManagement;
-
-namespace TailBlazer
+﻿namespace TailBlazer
 {
-
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    using System.ComponentModel;
+    using MahApps.Metro.Controls;
+    using TailBlazer.Views.WindowManagement;
+    /// <summary>Interaction logic for MainWindow.xaml</summary>
     public partial class MainWindow : MetroWindow
     {
-
+        #region Constructors
         public MainWindow()
         {
-            InitializeComponent();
-
-            Closing += MainWindow_Closing;
+            this.InitializeComponent();
+            this.Closing += this.MainWindow_Closing;
         }
-
+        #endregion
+        #region Methods
         private void MainWindow_Closing(object sender, CancelEventArgs e)
         {
-
-            var windowsModel = DataContext as WindowViewModel;
+            var windowsModel = this.DataContext as WindowViewModel;
             windowsModel?.OnWindowClosing();
         }
+        #endregion
     }
 }

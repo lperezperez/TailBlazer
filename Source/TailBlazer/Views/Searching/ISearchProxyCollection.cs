@@ -1,15 +1,16 @@
-using System;
-using System.Collections.ObjectModel;
-using Dragablz;
-using TailBlazer.Domain.Infrastructure;
-
 namespace TailBlazer.Views.Searching
 {
-    public interface ISearchProxyCollection: IDisposable
+    using System;
+    using System.Collections.ObjectModel;
+    using Dragablz;
+    using TailBlazer.Domain.Infrastructure;
+    public interface ISearchProxyCollection : IDisposable
     {
+        #region Properties
         IProperty<int> Count { get; }
-        ReadOnlyObservableCollection<SearchOptionsProxy> Included { get; }
         ReadOnlyObservableCollection<SearchOptionsProxy> Excluded { get; }
+        ReadOnlyObservableCollection<SearchOptionsProxy> Included { get; }
         VerticalPositionMonitor PositionMonitor { get; }
+        #endregion
     }
 }

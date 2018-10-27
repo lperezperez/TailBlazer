@@ -1,14 +1,11 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-
-namespace TailBlazer.Controls
+﻿namespace TailBlazer.Controls
 {
-
+    using System.Windows;
+    using System.Windows.Controls;
     public class ExitIcon : Control
     {
-        static ExitIcon()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(ExitIcon), new FrameworkPropertyMetadata(typeof(ExitIcon)));
-        }
+        #region Constructors
+        static ExitIcon() { DefaultStyleKeyProperty.OverrideMetadata(typeof(ExitIcon), new FrameworkPropertyMetadata(typeof(ExitIcon))); }
+        #endregion
     }
 }

@@ -1,11 +1,11 @@
-using System;
-
 namespace TailBlazer.Domain.Formatting
 {
+    using System;
     public interface IThemeProvider
     {
-        IObservable<Theme> Theme { get; }
+        #region Properties
         IObservable<Hue> Accent { get; }
-
+        IObservable<Theme> Theme { get; }
+        #endregion
     }
 }

@@ -1,15 +1,11 @@
-﻿using System.Windows.Controls;
-
-namespace TailBlazer.Views.Recent
+﻿namespace TailBlazer.Views.Recent
 {
-    /// <summary>
-    /// Interaction logic for RecentFilesView.xaml
-    /// </summary>
+    using System.Windows.Controls;
+    /// <summary>Interaction logic for RecentFilesView.xaml</summary>
     public partial class RecentFilesView : UserControl
     {
-        public RecentFilesView()
-        {
-            InitializeComponent();
-        }
+        #region Constructors
+        public RecentFilesView() { this.InitializeComponent(); }
+        #endregion
     }
 }

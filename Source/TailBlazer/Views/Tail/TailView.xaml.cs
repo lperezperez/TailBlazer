@@ -1,35 +1,32 @@
-﻿using System;
-using System.Windows.Controls;
-using System.Windows.Input;
-
-namespace TailBlazer.Views.Tail
+﻿namespace TailBlazer.Views.Tail
 {
-    /// <summary>
-    /// Interaction logic for TailView.xaml
-    /// </summary>
+    using System;
+    using System.Windows.Controls;
+    using System.Windows.Input;
+    /// <summary>Interaction logic for TailView.xaml</summary>
     public partial class TailView : UserControl
     {
+        #region Constructors
         public TailView()
         {
-            InitializeComponent();
-            IsVisibleChanged += (sender, e) =>
-            {
-                FocusSearchTextBox();
-            };            
+            this.InitializeComponent();
+            this.IsVisibleChanged += (sender, e) => { this.FocusSearchTextBox(); };
         }
-
+        #endregion
+        #region Methods
+        private void ApplicationCommandFind_Executed(object sender, ExecutedRoutedEventArgs e) { this.FocusSearchTextBox(); }
         private void FocusSearchTextBox()
         {
-            Dispatcher.BeginInvoke(new Action(() =>
-            {
-                SearchTextBox.Focus();
-                MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
-            }));
+            this.Dispatcher.BeginInvoke
+                (
+                 new Action
+                     (
+                      () =>
+                          {
+                              this.SearchTextBox.Focus();
+                              this.MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
+                          }));
         }
-
-        private void ApplicationCommandFind_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            FocusSearchTextBox();
-        }
+        #endregion
     }
 }

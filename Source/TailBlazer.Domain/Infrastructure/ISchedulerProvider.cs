@@ -1,10 +1,11 @@
-﻿using System.Reactive.Concurrency;
-
-namespace TailBlazer.Domain.Infrastructure
+﻿namespace TailBlazer.Domain.Infrastructure
 {
+    using System.Reactive.Concurrency;
     public interface ISchedulerProvider
     {
-        IScheduler MainThread { get; }
+        #region Properties
         IScheduler Background { get; }
+        IScheduler MainThread { get; }
+        #endregion
     }
 }
