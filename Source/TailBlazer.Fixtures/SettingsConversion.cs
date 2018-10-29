@@ -43,7 +43,7 @@ namespace TailBlazer.Fixtures
         private void SerializeAndDeserializeWithCulture(string cultureName)
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo(cultureName);
-            var original = new GeneralOptions(Theme.Dark, false, 0.5, 125, 5, true, false);
+            var original = new GeneralOptions(Theme.Dark, "Consolas", false, 0.5, 125, 5, true, false);
             var converter = new GeneralOptionsConverter();
             var state = converter.Convert(original);
             var restored = converter.Convert(state);

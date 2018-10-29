@@ -73,7 +73,6 @@
     </Style>
     <Style x:Key="LinesListBoxStyle" TargetType="{x:Type ListBox}">
         <Setter Property="IsTextSearchEnabled" Value="False" />
-        <!--<Setter Property="FocusVisualStyle" Value="{x:Null}" />-->
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
@@ -84,7 +83,6 @@
         <Setter Property="ScrollViewer.PanningMode" Value="Both" />
         <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="FontFamily" Value="Consolas" />
         <Setter Property="SelectionMode" Value="Extended" />
         <Setter Property="KeyboardNavigation.TabNavigation" Value="Cycle" />
         <Setter Property="ItemContainerStyle" Value="{StaticResource BaseLinesItemContainerStyle}" />
