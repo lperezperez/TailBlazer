@@ -16,6 +16,7 @@
         public GeneralOptionBindings([NotNull] ISetting<GeneralOptions> generalOptions, ISchedulerProvider schedulerProvider)
         {
             this.UsingDarkTheme = generalOptions.Value.ObserveOn(schedulerProvider.MainThread).Select(options => options.Theme == Theme.Dark).ForBinding();
+            this.LogFont = generalOptions.Value.ObserveOn(schedulerProvider.MainThread).Select(options => options.LogFont).ForBinding();
             this.HighlightTail = generalOptions.Value.ObserveOn(schedulerProvider.MainThread).Select(options => options.HighlightTail).ForBinding();
             this.ShowLineNumbers = generalOptions.Value.ObserveOn(schedulerProvider.MainThread).Select(options => options.ShowLineNumbers).ForBinding();
             this._cleanUp = new CompositeDisposable(this.UsingDarkTheme, this.HighlightTail, this.ShowLineNumbers);
@@ -23,6 +24,7 @@
         #endregion
         #region Properties
         public IProperty<bool> HighlightTail { get; }
+        public IProperty<string> LogFont { get; }
         public IProperty<bool> ShowLineNumbers { get; }
         public IProperty<bool> UsingDarkTheme { get; }
         #endregion

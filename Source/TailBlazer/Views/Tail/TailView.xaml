@@ -120,7 +120,7 @@
                 </Grid>
                 <Border Grid.Row="0" Grid.Column="0" Visibility="Collapsed" BorderThickness="0 0 0 1" BorderBrush="{DynamicResource PrimaryHueMidBrush}" />
                 <!--infrastucture:DependencyObjectHook.Receiver="{Binding KeyboardNavigationHandler}"-->
-                <ListBox Margin="0 4 0 2" Grid.Row="1" VerticalAlignment="Stretch" MinHeight="50" ItemsSource="{Binding Lines}" SelectedItem="{Binding SelectedItem}" Style="{StaticResource LinesListBoxStyle}" infrastucture:ListBoxHelper.SelectionMonitor="{Binding SelectionMonitor}">
+                <ListBox Margin="0 4 0 2" Grid.Row="1" VerticalAlignment="Stretch" MinHeight="50" ItemsSource="{Binding Lines}" SelectedItem="{Binding SelectedItem}" Style="{StaticResource LinesListBoxStyle}" FontFamily="{Binding GeneralOptionBindings.LogFont.Value}" infrastucture:ListBoxHelper.SelectionMonitor="{Binding SelectionMonitor}">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <virtualisation:LinesScrollPanel ItemHeight="20" ScrollReceiver="{Binding}" StartIndex="{Binding FirstIndex}" TotalItems="{Binding LatestCount.Value}" HorizontalScrollChanged="{Binding HorizonalScrollChanged}" CharacterWidth="6.59666666666667" TotalCharacters="{Binding MaximumChars.Value, UpdateSourceTrigger=PropertyChanged}" />

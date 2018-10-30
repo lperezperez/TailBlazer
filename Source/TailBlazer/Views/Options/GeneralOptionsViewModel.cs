@@ -6,6 +6,7 @@ namespace TailBlazer.Views.Options
     using System.Reactive.Linq;
     using System.Windows;
     using System.Windows.Input;
+    using System.Windows.Media;
     using DynamicData.Binding;
     using TailBlazer.Domain.Formatting;
     using TailBlazer.Domain.Infrastructure;
@@ -14,14 +15,15 @@ namespace TailBlazer.Views.Options
     public sealed class GeneralOptionsViewModel : AbstractNotifyPropertyChanged, IDisposable
     {
         #region Fields
-        private readonly IDisposable _cleanUp;
-        private double _highlightDuration;
-        private bool _highlightTail;
-        private bool _openRecentOnStartup;
-        private int _rating;
-        private double _scale;
-        private bool _showLineNumbers;
-        private bool _useDarkTheme;
+        private readonly IDisposable cleanUp;
+        private double highlightDuration;
+        private bool highlightTail;
+        private string logFont;
+        private bool openRecentOnStartup;
+        private int rating;
+        private double scale;
+        private bool showLineNumbers;
+        private bool useDarkTheme;
         #endregion
         #region Constructors
         public GeneralOptionsViewModel(ISetting<GeneralOptions> setting)
@@ -31,6 +33,7 @@ namespace TailBlazer.Views.Options
                  options =>
                      {
                          this.UseDarkTheme = options.Theme == Theme.Dark;
+                         this.LogFont = options.LogFont;
                          this.HighlightTail = options.HighlightTail;
                          this.HighlightDuration = options.HighlightDuration;
                          this.Scale = options.Scale;
@@ -46,29 +49,38 @@ namespace TailBlazer.Views.Options
                          Process.Start(Application.ResourceAssembly.Location);
                          Application.Current.Shutdown();
                      });
-            var writter = this.WhenAnyPropertyChanged().Subscribe(vm => { setting.Write(new GeneralOptions(this.UseDarkTheme ? Theme.Dark : Theme.Light, this.HighlightTail, this.HighlightDuration, this.Scale, this.Rating, this.OpenRecentOnStartup, this.ShowLineNumbers)); });
+            var writer = this.WhenAnyPropertyChanged().Subscribe(vm => { setting.Write(new GeneralOptions(this.UseDarkTheme ? Theme.Dark : Theme.Light, this.LogFont, this.HighlightTail, this.HighlightDuration, this.Scale, this.Rating, this.OpenRecentOnStartup, this.ShowLineNumbers)); });
             this.HighlightDurationText = this.WhenValueChanged(vm => vm.HighlightDuration).DistinctUntilChanged().Select(value => value.ToString("0.00 Seconds")).ForBinding();
             this.ScaleText = this.WhenValueChanged(vm => vm.Scale).DistinctUntilChanged().Select(value => $"{value} %").ForBinding();
-            this.ScaleRatio = this.WhenValueChanged(vm => vm.Scale).DistinctUntilChanged().Select(value => (decimal)value / (decimal)100).ForBinding();
-            this._cleanUp = new CompositeDisposable(reader, writter, this.HighlightDurationText, this.ScaleText, this.ScaleRatio);
+            this.ScaleRatio = this.WhenValueChanged(vm => vm.Scale).DistinctUntilChanged().Select(value => (decimal)value / 100).ForBinding();
+            this.cleanUp = new CompositeDisposable(reader, writer, this.HighlightDurationText, this.ScaleText, this.ScaleRatio);
         }
         #endregion
         #region Properties
-        public double HighlightDuration { get => this._highlightDuration; set => this.SetAndRaise(ref this._highlightDuration, value); }
+        public double HighlightDuration { get => this.highlightDuration; set => this.SetAndRaise(ref this.highlightDuration, value); }
         public IProperty<string> HighlightDurationText { get; }
-        public bool HighlightTail { get => this._highlightTail; set => this.SetAndRaise(ref this._highlightTail, value); }
-        public bool OpenRecentOnStartup { get => this._openRecentOnStartup; set => this.SetAndRaise(ref this._openRecentOnStartup, value); }
-        public int Rating { get => this._rating; set => this.SetAndRaise(ref this._rating, value); }
+        public bool HighlightTail { get => this.highlightTail; set => this.SetAndRaise(ref this.highlightTail, value); }
+        public string LogFont
+        {
+            get => this.logFont;
+            set
+            {
+                if (value != null)
+                    this.SetAndRaise(ref this.logFont, value);
+            }
+        }
+        public bool OpenRecentOnStartup { get => this.openRecentOnStartup; set => this.SetAndRaise(ref this.openRecentOnStartup, value); }
+        public int Rating { get => this.rating; set => this.SetAndRaise(ref this.rating, value); }
         public IProperty<bool> RequiresRestart { get; }
         public ICommand RestartCommand { get; }
-        public double Scale { get => this._scale; set => this.SetAndRaise(ref this._scale, value); }
+        public double Scale { get => this.scale; set => this.SetAndRaise(ref this.scale, value); }
         public IProperty<decimal> ScaleRatio { get; }
         public IProperty<string> ScaleText { get; }
-        public bool ShowLineNumbers { get => this._showLineNumbers; set => this.SetAndRaise(ref this._showLineNumbers, value); }
-        public bool UseDarkTheme { get => this._useDarkTheme; set => this.SetAndRaise(ref this._useDarkTheme, value); }
+        public bool ShowLineNumbers { get => this.showLineNumbers; set => this.SetAndRaise(ref this.showLineNumbers, value); }
+        public bool UseDarkTheme { get => this.useDarkTheme; set => this.SetAndRaise(ref this.useDarkTheme, value); }
         #endregion
         #region Methods
-        void IDisposable.Dispose() { this._cleanUp.Dispose(); }
+        void IDisposable.Dispose() => this.cleanUp.Dispose();
         #endregion
     }
 }

@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 [assembly: AssemblyCopyright("© 2018 Roland Pheasant")]
 [assembly: AssemblyDescription("Tail blazer is a file tail utility")]
-[assembly: AssemblyFileVersion("0.9.0.540")]
+[assembly: AssemblyFileVersion("0.9.0.542")]
 [assembly: AssemblyInformationalVersion("0.9")]
 [assembly: AssemblyProduct("TailBlazer")]
 [assembly: AssemblyTitle("Tail Blazer")]

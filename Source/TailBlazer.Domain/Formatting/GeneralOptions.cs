@@ -3,9 +3,10 @@
     public class GeneralOptions
     {
         #region Constructors
-        public GeneralOptions(Theme theme, bool highlightTail, double highlightTailDuration, double scale, int rating, bool openRecentOnStartup, bool showLineNumbers)
+        public GeneralOptions(Theme theme, string logFont, bool highlightTail, double highlightTailDuration, double scale, int rating, bool openRecentOnStartup, bool showLineNumbers)
         {
             this.Theme = theme;
+            this.LogFont = logFont;
             this.HighlightTail = highlightTail;
             this.HighlightDuration = highlightTailDuration;
             this.Scale = scale;
@@ -15,6 +16,7 @@
         }
         #endregion
         #region Properties
+        public string LogFont { get; }
         public double HighlightDuration { get; }
         public bool HighlightTail { get; }
         public bool OpenRecentOnStartup { get; }
