@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("© 2018 Roland Pheasant")]
-[assembly: AssemblyFileVersion("0.0.0.4")]
+[assembly: AssemblyFileVersion("0.0.0.5")]
 [assembly: AssemblyInformationalVersion("0.0")]
 [assembly: AssemblyProduct("TailBlazer.Fixtures")]
 [assembly: AssemblyTitle("TailBlazer.Fixtures")]
