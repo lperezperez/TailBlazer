@@ -1,10 +1,11 @@
-using System.ComponentModel;
-
 namespace TailBlazer.Views.DialogServices
 {
+    using System.ComponentModel;
     public interface IDialogViewModel : INotifyPropertyChanged
     {
-        bool IsDialogOpen { get; set; }
+        #region Properties
         object DialogContent { get; set; }
+        bool IsDialogOpen { get; set; }
+        #endregion
     }
 }

@@ -1,44 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-
-namespace TailBlazer.Fixtures
+﻿namespace TailBlazer.Fixtures
 {
-    public class TestFile: IDisposable
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    public class TestFile : IDisposable
     {
-        public string Name { get; }
-        public FileInfo Info { get; }
-
+        #region Constructors
         public TestFile()
         {
-
-            Name = Path.GetTempFileName();
-            Info = new FileInfo(Name);
+            this.Name = Path.GetTempFileName();
+            this.Info = new FileInfo(this.Name);
         }
-
-        public void Append(IEnumerable<string> lines)
-        {
-            File.AppendAllLines(Name,lines);
-        }
-
-        public void Append(string line)
-        {
-            File.AppendAllLines(Name, new[]{line});
-        }
-
-        public void Delete()
-        {
-            File.Delete(Name);
-        }
-
-        public void Create()
-        {
-            File.Create(Name);
-        }
-
-        public void Dispose()
-        {
-            File.Delete(Name);
-        }
+        #endregion
+        #region Properties
+        public FileInfo Info { get; }
+        public string Name { get; }
+        #endregion
+        #region Methods
+        public void Append(IEnumerable<string> lines) { File.AppendAllLines(this.Name, lines); }
+        public void Append(string line) { File.AppendAllLines(this.Name, new[] { line }); }
+        public void Create() { File.Create(this.Name); }
+        public void Delete() { File.Delete(this.Name); }
+        public void Dispose() { File.Delete(this.Name); }
+        #endregion
     }
 }

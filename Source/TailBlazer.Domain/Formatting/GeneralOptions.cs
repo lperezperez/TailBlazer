@@ -1,25 +1,29 @@
 ﻿namespace TailBlazer.Domain.Formatting
 {
-    public class  GeneralOptions
+    public class GeneralOptions
     {
-        public Theme Theme { get;  }
-        public bool HighlightTail { get; }
-        public double HighlightDuration { get; }
-        public double Scale { get; }
-        public int Rating { get; }
-        public bool OpenRecentOnStartup { get; }
-        public bool ShowLineNumbers { get; }
-
-        public GeneralOptions(Theme theme, bool highlightTail, double highlightTailDuration, double scale, int rating, bool openRecentOnStartup, bool showLineNumbers)
+        #region Constructors
+        public GeneralOptions(Theme theme, string logFont, bool highlightTail, double highlightTailDuration, double scale, int rating, bool openRecentOnStartup, bool showLineNumbers)
         {
-            Theme = theme;
-            HighlightTail = highlightTail;
-            HighlightDuration = highlightTailDuration;
-            Scale = scale;
-            Rating = rating;
-            OpenRecentOnStartup = openRecentOnStartup;
-            ShowLineNumbers = showLineNumbers;
+            this.Theme = theme;
+            this.LogFont = logFont;
+            this.HighlightTail = highlightTail;
+            this.HighlightDuration = highlightTailDuration;
+            this.Scale = scale;
+            this.Rating = rating;
+            this.OpenRecentOnStartup = openRecentOnStartup;
+            this.ShowLineNumbers = showLineNumbers;
         }
-
+        #endregion
+        #region Properties
+        public string LogFont { get; }
+        public double HighlightDuration { get; }
+        public bool HighlightTail { get; }
+        public bool OpenRecentOnStartup { get; }
+        public int Rating { get; }
+        public double Scale { get; }
+        public bool ShowLineNumbers { get; }
+        public Theme Theme { get; }
+        #endregion
     }
 }

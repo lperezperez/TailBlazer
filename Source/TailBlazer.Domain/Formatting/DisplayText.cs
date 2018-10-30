@@ -1,26 +1,26 @@
 namespace TailBlazer.Domain.Formatting
 {
-
     public class DisplayText
     {
-        public string Text { get; }
-        public bool Highlight { get; }
-        public Hue Hue { get; }
-        public int Length => Text.Length;
-
+        #region Constructors
         public DisplayText(MatchedString matchedString)
         {
-            Text = matchedString.Part;
-            Highlight = matchedString.IsMatch;
-            Hue = matchedString.Hue;
+            this.Text = matchedString.Part;
+            this.Highlight = matchedString.IsMatch;
+            this.Hue = matchedString.Hue;
         }
-
         public DisplayText(DisplayText displayText, string text)
         {
-            Text = text;
-            Highlight = displayText.Highlight;
-            Hue = displayText.Hue;
+            this.Text = text;
+            this.Highlight = displayText.Highlight;
+            this.Hue = displayText.Hue;
         }
-
+        #endregion
+        #region Properties
+        public bool Highlight { get; }
+        public Hue Hue { get; }
+        public int Length => this.Text.Length;
+        public string Text { get; }
+        #endregion
     }
 }

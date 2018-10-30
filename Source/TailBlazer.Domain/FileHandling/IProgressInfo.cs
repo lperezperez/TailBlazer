@@ -2,8 +2,10 @@ namespace TailBlazer.Domain.FileHandling
 {
     public interface IProgressInfo
     {
-        int SegmentsCompleted { get; }
-        int Segments { get; }
+        #region Properties
         bool IsSearching { get; }
+        int Segments { get; }
+        int SegmentsCompleted { get; }
+        #endregion
     }
 }

@@ -1,19 +1,16 @@
-﻿using System.Reactive.Concurrency;
-using System.Windows.Threading;
-using TailBlazer.Domain.Infrastructure;
-
-namespace TailBlazer.Infrastucture
+﻿namespace TailBlazer.Infrastucture
 {
+    using System.Reactive.Concurrency;
+    using System.Windows.Threading;
+    using TailBlazer.Domain.Infrastructure;
     public class SchedulerProvider : ISchedulerProvider
     {
-        public IScheduler MainThread { get; }
-
+        #region Constructors
+        public SchedulerProvider(Dispatcher dispatcher) { this.MainThread = new DispatcherScheduler(dispatcher); }
+        #endregion
+        #region Properties
         public IScheduler Background { get; } = TaskPoolScheduler.Default;
-
-        public SchedulerProvider(Dispatcher dispatcher)
-        {
-            MainThread = new DispatcherScheduler(dispatcher);
-        }
-
+        public IScheduler MainThread { get; }
+        #endregion
     }
 }

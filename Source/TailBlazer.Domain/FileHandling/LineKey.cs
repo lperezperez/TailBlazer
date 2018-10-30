@@ -1,54 +1,36 @@
-using System;
-
 namespace TailBlazer.Domain.FileHandling
 {
+    using System;
     public struct LineKey : IEquatable<LineKey>
     {
-        private readonly string _text;
+        #region Fields
         private readonly long _start;
-
+        private readonly string _text;
+        #endregion
+        #region Constructors
         public LineKey(string text, long start)
         {
-            _text = text;
-            _start = start;
+            this._text = text;
+            this._start = start;
         }
-
-        #region Equality
-
-        public bool Equals(LineKey other)
-        {
-            return string.Equals(_text, other._text) && _start == other._start;
-        }
-
+        #endregion
+        #region Methods
+        public static bool operator ==(LineKey left, LineKey right) => left.Equals(right);
+        public static bool operator !=(LineKey left, LineKey right) => !left.Equals(right);
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            return obj is LineKey && Equals((LineKey) obj);
+            if (object.ReferenceEquals(null, obj)) return false;
+            return obj is LineKey && this.Equals((LineKey)obj);
         }
-
         public override int GetHashCode()
         {
             unchecked
             {
-                return ((_text?.GetHashCode() ?? 0)*397) ^ _start.GetHashCode();
+                return ((this._text?.GetHashCode() ?? 0) * 397) ^ this._start.GetHashCode();
             }
         }
-
-        public static bool operator ==(LineKey left, LineKey right)
-        {
-            return left.Equals(right);
-        }
-
-        public static bool operator !=(LineKey left, LineKey right)
-        {
-            return !left.Equals(right);
-        }
-
+        public override string ToString() => $"{this._text} (@{this._start})";
+        public bool Equals(LineKey other) => string.Equals(this._text, other._text) && this._start == other._start;
         #endregion
-
-        public override string ToString()
-        {
-            return $"{_text} (@{_start})";
-        }
     }
 }

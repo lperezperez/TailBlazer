@@ -1,12 +1,12 @@
-using DynamicData;
-using TailBlazer.Domain.FileHandling.Search;
-
 namespace TailBlazer.Views.Formatting
 {
+    using DynamicData;
+    using TailBlazer.Domain.FileHandling.Search;
     public interface IIconProvider
     {
-        IObservableList<IconDescription> Icons { get; }
-
+        #region Properties
         IDefaultIconSelector DefaultIconSelector { get; }
+        IObservableList<IconDescription> Icons { get; }
+        #endregion
     }
 }

@@ -1,11 +1,10 @@
-using System;
-
 namespace TailBlazer.Domain.FileHandling
 {
+    using System;
     [Flags]
     public enum FileNotificationType
     {
-        None ,
+        None,
         CreatedOrOpened,
         Changed,
         Missing,

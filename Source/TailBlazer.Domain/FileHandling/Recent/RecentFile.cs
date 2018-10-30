@@ -1,65 +1,49 @@
-using System;
-using System.IO;
-
 namespace TailBlazer.Domain.FileHandling.Recent
 {
+    using System;
+    using System.IO;
     public class RecentFile : IEquatable<RecentFile>
     {
-        public DateTime Timestamp { get; }
-        public string  Name  { get; }
-
+        #region Constructors
         public RecentFile(FileInfo fileInfo)
         {
-            Name = fileInfo.FullName;
-            Timestamp = DateTime.UtcNow;
+            this.Name = fileInfo.FullName;
+            this.Timestamp = DateTime.UtcNow;
         }
-
         public RecentFile(DateTime timestamp, string name)
         {
-            Timestamp = timestamp;
-            Name = name;
+            this.Timestamp = timestamp;
+            this.Name = name;
         }
-
-        #region Equality
-
-        public bool Equals(RecentFile other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return Timestamp.Equals(other.Timestamp) && string.Equals(Name, other.Name);
-        }
-
+        #endregion
+        #region Properties
+        public string Name { get; }
+        public DateTime Timestamp { get; }
+        #endregion
+        #region Methods
+        public static bool operator ==(RecentFile left, RecentFile right) => object.Equals(left, right);
+        public static bool operator !=(RecentFile left, RecentFile right) => !object.Equals(left, right);
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
+            if (object.ReferenceEquals(null, obj)) return false;
+            if (object.ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((RecentFile) obj);
+            return this.Equals((RecentFile)obj);
         }
-
         public override int GetHashCode()
         {
             unchecked
             {
-                return (Timestamp.GetHashCode()*397) ^ (Name?.GetHashCode() ?? 0);
+                return (this.Timestamp.GetHashCode() * 397) ^ (this.Name?.GetHashCode() ?? 0);
             }
         }
-
-        public static bool operator ==(RecentFile left, RecentFile right)
+        public override string ToString() => $"{this.Name} ({this.Timestamp})";
+        public bool Equals(RecentFile other)
         {
-            return Equals(left, right);
+            if (object.ReferenceEquals(null, other)) return false;
+            if (object.ReferenceEquals(this, other)) return true;
+            return this.Timestamp.Equals(other.Timestamp) && string.Equals(this.Name, other.Name);
         }
-
-        public static bool operator !=(RecentFile left, RecentFile right)
-        {
-            return !Equals(left, right);
-        }
-
         #endregion
-
-        public override string ToString()
-        {
-            return $"{Name} ({Timestamp})";
-        }
     }
 }

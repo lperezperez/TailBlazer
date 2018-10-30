@@ -1,72 +1,62 @@
-using System;
-using System.Reactive.Concurrency;
-using System.Reactive.Linq;
-using System.Xml.Linq;
-using TailBlazer.Domain.Infrastructure;
-using TailBlazer.Domain.Settings;
-using TailBlazer.Infrastucture.AppState;
-
 namespace TailBlazer.Views.Layout
 {
+    using System;
+    using System.Reactive.Concurrency;
+    using System.Reactive.Linq;
+    using System.Xml.Linq;
+    using TailBlazer.Domain.Infrastructure;
+    using TailBlazer.Domain.Settings;
+    using TailBlazer.Infrastucture.AppState;
     public class LayoutService : ILayoutService
     {
-        private readonly ISettingsStore _store;
+        #region Constants
+        private const string LayoutName = "_LayoutName";
+        #endregion
+        #region Fields
         private readonly ILogger _logger;
         private readonly IObjectProvider _objectProvider;
-        private const string LayoutName = "_LayoutName";
-
-        public LayoutService(ISettingsStore store, 
-            ILogger logger,
-            ISchedulerProvider schedulerProvider,
-            IObjectProvider objectProvider,
-            IApplicationStateNotifier stateNotifier)
+        private readonly ISettingsStore _store;
+        #endregion
+        #region Constructors
+        public LayoutService(ISettingsStore store, ILogger logger, ISchedulerProvider schedulerProvider, IObjectProvider objectProvider, IApplicationStateNotifier stateNotifier)
         {
-            _store = store;
-            _logger = logger;
-            _objectProvider = objectProvider;
-            schedulerProvider.MainThread.Schedule(Restore);
-
-            stateNotifier.StateChanged.Where(state => state == ApplicationState.ShuttingDown)
-                .Subscribe(_ =>
-                {
-                    Write();
-                });
+            this._store = store;
+            this._logger = logger;
+            this._objectProvider = objectProvider;
+            schedulerProvider.MainThread.Schedule(this.Restore);
+            stateNotifier.StateChanged.Where(state => state == ApplicationState.ShuttingDown).Subscribe(_ => { this.Write(); });
         }
-
-        public void Write()
-        {
-            try
-            {
-                var converter = _objectProvider.Get<ILayoutConverter>();
-                var xml = converter.CaptureState();
-                _store.Save(LayoutName, new State(1, xml.ToString()));
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex, "Problem saving layout");
-            }
-        }
-
+        #endregion
+        #region Methods
         public void Restore()
         {
             try
             {
-                var restored = _store.Load(LayoutName);
+                var restored = this._store.Load(LayoutName);
                 if (restored == State.Empty)
                     return;
-
                 var element = XDocument.Parse(restored.Value);
-
-                var converter = _objectProvider.Get<ILayoutConverter>();
+                var converter = this._objectProvider.Get<ILayoutConverter>();
                 converter.Restore(element.Root);
-
             }
             catch (Exception ex)
             {
-                _logger.Error(ex,"Problem reading layout");
+                this._logger.Error(ex, "Problem reading layout");
             }
-
         }
-
+        public void Write()
+        {
+            try
+            {
+                var converter = this._objectProvider.Get<ILayoutConverter>();
+                var xml = converter.CaptureState();
+                this._store.Save(LayoutName, new State(1, xml.ToString()));
+            }
+            catch (Exception ex)
+            {
+                this._logger.Error(ex, "Problem saving layout");
+            }
+        }
+        #endregion
     }
 }

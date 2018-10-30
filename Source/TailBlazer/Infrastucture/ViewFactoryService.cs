@@ -1,31 +1,26 @@
-using System.Collections.Generic;
-using DynamicData.Kernel;
-using TailBlazer.Domain.Infrastructure;
-using TailBlazer.Views;
-
 namespace TailBlazer.Infrastucture
 {
+    using System.Collections.Generic;
+    using DynamicData.Kernel;
+    using TailBlazer.Domain.Infrastructure;
+    using TailBlazer.Views;
     public class ViewFactoryService : IViewFactoryRegister, IViewFactoryProvider
     {
+        #region Fields
         private readonly IObjectProvider _objectProvider;
         private readonly IDictionary<string, IViewModelFactory> _viewFactories = new Dictionary<string, IViewModelFactory>();
-
-        public ViewFactoryService(IObjectProvider objectProvider)
-        {
-            _objectProvider = objectProvider;
-        }
-
+        #endregion
+        #region Constructors
+        public ViewFactoryService(IObjectProvider objectProvider) { this._objectProvider = objectProvider; }
+        #endregion
+        #region Methods
+        public Optional<IViewModelFactory> Lookup(string key) => this._viewFactories.Lookup(key);
         public void Register<T>()
-            where T:IViewModelFactory
+            where T : IViewModelFactory
         {
-            var register = (IViewModelFactory)_objectProvider.Get<T>();
-
-            _viewFactories[register.Key] = register;
+            var register = (IViewModelFactory)this._objectProvider.Get<T>();
+            this._viewFactories[register.Key] = register;
         }
-
-        public Optional<IViewModelFactory> Lookup(string key)
-        {
-            return _viewFactories.Lookup(key);
-        }
+        #endregion
     }
 }

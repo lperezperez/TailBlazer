@@ -1,19 +1,16 @@
-using System;
-using System.Linq;
-using System.Reactive.Linq;
-using FluentAssertions;
-using Microsoft.Reactive.Testing;
-using TailBlazer.Domain.FileHandling;
-using TailBlazer.Domain.Infrastructure;
-using Xunit;
-
 namespace TailBlazer.Fixtures
 {
-
+    using System.Linq;
+    using System.Reactive.Linq;
+    using FluentAssertions;
+    using Microsoft.Reactive.Testing;
+    using TailBlazer.Domain.FileHandling;
+    using TailBlazer.Domain.Infrastructure;
+    using Xunit;
     public class FileTailerFixture
     {
-
-      //  [Fact]
+        #region Methods
+        //  [Fact]
         //public void AutoTail()
         //{
         //    var scheduler  = new TestScheduler();
@@ -27,11 +24,11 @@ namespace TailBlazer.Fixtures
         //        using (var tailer = new FileTailer(file.Info, textMatch, autoTailer, new NullLogger(), scheduler))
         //        {
         //            scheduler.AdvanceByMilliSeconds(250);
-        //            tailer.Lines.Items.Select(l => l.Number).ShouldAllBeEquivalentTo(Enumerable.Range(91, 10));
+        //            tailer.Lines.Items.Select(l => l.Number).Should().BeEquivalentTo(Enumerable.Range(91, 10));
         //            file.Append( Enumerable.Range(101, 10).Select(i => i.ToString()));
 
         //            scheduler.AdvanceByMilliSeconds(250);
-        //            tailer.Lines.Items.Select(l => l.Number).ShouldAllBeEquivalentTo(Enumerable.Range(101, 10));
+        //            tailer.Lines.Items.Select(l => l.Number).Should().BeEquivalentTo(Enumerable.Range(101, 10));
         //        }
         //    }
         //}
@@ -44,7 +41,6 @@ namespace TailBlazer.Fixtures
         //    var scheduler = new TestScheduler();
         //    var textMatch = Observable.Return((string)"1");
         //    var autoTailer = Observable.Return(new ScrollRequest(10));
-
 
         //    File.AppendAllLines(file, Enumerable.Range(1, 100).Select(i => i.ToString()).ToArray());
 
@@ -59,65 +55,37 @@ namespace TailBlazer.Fixtures
 
         //        scheduler.AdvanceBySeconds(1);
 
-        //        tailer.Lines.Items.Select(l => l.Number).ShouldAllBeEquivalentTo(expectedLines);
+        //        tailer.Lines.Items.Select(l => l.Number).Should().BeEquivalentTo(expectedLines);
 
         //        File.Delete(file);
-        //        tailer.Lines.Items.Select(l => l.Number).ShouldAllBeEquivalentTo(expectedLines);
+        //        tailer.Lines.Items.Select(l => l.Number).Should().BeEquivalentTo(expectedLines);
         //    }
         //}
-
         [Fact]
         public void AutoTailWithFilter()
         {
-
             var scheduler = new TestScheduler();
             var autoTailer = Observable.Return(new ScrollRequest(10));
-
-            bool Predicate(string s) => s.Contains("odd");
+            bool Predicate(string s) { return s.Contains("odd"); }
             using (var file = new TestFile())
             {
-
-                file.Append(Enumerable.Range(1, 100).Select(i => i%2 == 1 ? $"{i} is an odd number" : $"{i} is an even number").ToArray());
-                var search = file.Info.Search(Predicate,  scheduler);
-
+                file.Append(Enumerable.Range(1, 100).Select(i => i % 2 == 1 ? $"{i} is an odd number" : $"{i} is an even number").ToArray());
+                var search = file.Info.Search(Predicate, scheduler);
                 using (var tailer = new LineScroller(file.Info, search, autoTailer, new NullLogger(), scheduler))
                 {
-
                     //lines which contain "1"
-                    var expectedLines = Enumerable.Range(1, 100)
-                        .Select(i => i%2 == 1 ? $"{i} is an odd number" : $"{i} is an even number")
-                        .Where(s => s.Contains("odd"))
-                        .Reverse()
-                        .Take(10)
-                        .Reverse()
-                        .ToArray();
-
+                    var expectedLines = Enumerable.Range(1, 100).Select(i => i % 2 == 1 ? $"{i} is an odd number" : $"{i} is an even number").Where(s => s.Contains("odd")).Reverse().Take(10).Reverse().ToArray();
                     scheduler.AdvanceBySeconds(1);
-
-                    tailer.Lines.Items.Select(l => l.Text).ShouldAllBeEquivalentTo(expectedLines);
-
-
-                    file.Append( Enumerable.Range(101, 10).Select(i => i%2 == 1 ? $"{i} is an odd number" : $"{i} is an even number").ToArray());
-
+                    tailer.Lines.Items.Select(l => l.Text).Should().BeEquivalentTo(expectedLines);
+                    file.Append(Enumerable.Range(101, 10).Select(i => i % 2 == 1 ? $"{i} is an odd number" : $"{i} is an even number").ToArray());
                     scheduler.AdvanceBySeconds(1);
-
-                    expectedLines = Enumerable.Range(1, 110)
-                        .Select(i => i%2 == 1 ? $"{i} is an odd number" : $"{i} is an even number")
-                        .Where(s => s.Contains("odd"))
-                        .Reverse()
-                        .Take(10)
-                        .Reverse()
-                        .ToArray();
-
-
+                    expectedLines = Enumerable.Range(1, 110).Select(i => i % 2 == 1 ? $"{i} is an odd number" : $"{i} is an even number").Where(s => s.Contains("odd")).Reverse().Take(10).Reverse().ToArray();
                     scheduler.AdvanceBySeconds(1);
-
-
-                    tailer.Lines.Items.Select(l => l.Text).ShouldAllBeEquivalentTo(expectedLines);
+                    tailer.Lines.Items.Select(l => l.Text).Should().BeEquivalentTo(expectedLines);
                 }
             }
         }
-
+        #endregion
 
         //[Fact]
         //public void ScrollToSpecificLine()
@@ -134,14 +102,13 @@ namespace TailBlazer.Fixtures
         //    using (var tailer = new FileTailer(info, textMatch, autoTailer,new NullLogger(), scheduler))
         //    {
         //        scheduler.AdvanceByMilliSeconds(251);
-        //        tailer.Lines.Items.Select(l => l.Number).ShouldAllBeEquivalentTo(Enumerable.Range(15, 10));
+        //        tailer.Lines.Items.Select(l => l.Number).Should().BeEquivalentTo(Enumerable.Range(15, 10));
 
         //        autoTailer.OnNext(new ScrollRequest(15, 49));
 
-
         //        File.Delete(file);
         //        scheduler.AdvanceByMilliSeconds(250);
-        //        tailer.Lines.Items.Select(l => l.Number).ShouldAllBeEquivalentTo(Enumerable.Range(50, 15));
+        //        tailer.Lines.Items.Select(l => l.Number).Should().BeEquivalentTo(Enumerable.Range(50, 15));
         //    }
 
         //}
@@ -160,7 +127,7 @@ namespace TailBlazer.Fixtures
         //        scheduler.AdvanceByMilliSeconds(1);
         //        File.AppendAllLines(file, Enumerable.Range(1, 100).Select(i => i.ToString()).ToArray());
         //        scheduler.AdvanceBySeconds(1);
-        //        tailer.Lines.Items.Select(l => l.Number).ShouldAllBeEquivalentTo(Enumerable.Range(91, 10));
+        //        tailer.Lines.Items.Select(l => l.Number).Should().BeEquivalentTo(Enumerable.Range(91, 10));
         //    }
         //}
     }

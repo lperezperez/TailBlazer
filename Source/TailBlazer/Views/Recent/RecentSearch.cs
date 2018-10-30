@@ -1,64 +1,48 @@
-using System;
-
 namespace TailBlazer.Views.Recent
 {
+    using System;
     public class RecentSearch : IEquatable<RecentSearch>
     {
-        public DateTime Timestamp { get; }
-        public string  Text  { get; }
-
+        #region Constructors
         public RecentSearch(string seaarchText)
         {
-            Text = seaarchText;
-            Timestamp = DateTime.UtcNow;
+            this.Text = seaarchText;
+            this.Timestamp = DateTime.UtcNow;
         }
-
         public RecentSearch(DateTime timestamp, string text)
         {
-            Timestamp = timestamp;
-            Text = text;
+            this.Timestamp = timestamp;
+            this.Text = text;
         }
-
-        #region Equality
-
-        public bool Equals(RecentSearch other)
-        {
-            if (other is null) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return Timestamp.Equals(other.Timestamp) && string.Equals(Text, other.Text);
-        }
-
+        #endregion
+        #region Properties
+        public string Text { get; }
+        public DateTime Timestamp { get; }
+        #endregion
+        #region Methods
+        public static bool operator ==(RecentSearch left, RecentSearch right) => object.Equals(left, right);
+        public static bool operator !=(RecentSearch left, RecentSearch right) => !object.Equals(left, right);
         public override bool Equals(object obj)
         {
             if (obj is null) return false;
-            if (ReferenceEquals(this, obj)) return true;
+            if (object.ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((RecentSearch) obj);
+            return this.Equals((RecentSearch)obj);
         }
-
         public override int GetHashCode()
         {
             unchecked
             {
-                return (Timestamp.GetHashCode()*397) ^ (Text?.GetHashCode() ?? 0);
+                return (this.Timestamp.GetHashCode() * 397) ^ (this.Text?.GetHashCode() ?? 0);
             }
         }
-
-        public static bool operator ==(RecentSearch left, RecentSearch right)
+        public override string ToString() => $"{this.Text} ({this.Timestamp})";
+        public bool Equals(RecentSearch other)
         {
-            return Equals(left, right);
+            if (other is null) return false;
+            if (object.ReferenceEquals(this, other)) return true;
+            return this.Timestamp.Equals(other.Timestamp) && string.Equals(this.Text, other.Text);
         }
-
-        public static bool operator !=(RecentSearch left, RecentSearch right)
-        {
-            return !Equals(left, right);
-        }
-
         #endregion
-
-        public override string ToString()
-        {
-            return $"{Text} ({Timestamp})";
-        }
     }
 }

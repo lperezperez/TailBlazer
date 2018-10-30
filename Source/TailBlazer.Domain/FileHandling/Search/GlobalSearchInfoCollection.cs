@@ -1,16 +1,13 @@
-using TailBlazer.Domain.Infrastructure;
-
 namespace TailBlazer.Domain.FileHandling.Search
 {
+    using TailBlazer.Domain.Infrastructure;
     public sealed class GlobalSearchInfoCollection //: ISearchInfoCollection
     {
+        #region Fields
         private readonly ISearchMetadataCollection _searchMetadataCollection;
-
-        public GlobalSearchInfoCollection(ISearchMetadataCollection searchMetadataCollection, ILogger logger)
-        {
-            _searchMetadataCollection = searchMetadataCollection;
-
-           
-        }
+        #endregion
+        #region Constructors
+        public GlobalSearchInfoCollection(ISearchMetadataCollection searchMetadataCollection, ILogger logger) { this._searchMetadataCollection = searchMetadataCollection; }
+        #endregion
     }
 }

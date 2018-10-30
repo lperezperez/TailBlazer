@@ -1,75 +1,55 @@
-﻿
-using System;
-using System.Windows;
-
-namespace TailBlazer.Views.Layout
+﻿namespace TailBlazer.Views.Layout
 {
-
-    public class ShellSettings :  IEquatable<ShellSettings>
+    using System;
+    using System.Windows;
+    public class ShellSettings : IEquatable<ShellSettings>
     {
-        public double Top { get; }
-        public double Left { get; }
-
-        public double Width { get; }
-
-        public double Height { get; }
-
-        public WindowState State { get; }
-
+        #region Constructors
         public ShellSettings(double top, double left, double width, double height, WindowState state)
         {
-            Top = top;
-            Left = left;
-            Width = width;
-            Height = height;
-            State = state;
+            this.Top = top;
+            this.Left = left;
+            this.Width = width;
+            this.Height = height;
+            this.State = state;
         }
-
-        #region Equality
-
-        public bool Equals(ShellSettings other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return Top.Equals(other.Top) && Left.Equals(other.Left) && Width.Equals(other.Width) && Height.Equals(other.Height) && State == other.State;
-        }
-
+        #endregion
+        #region Properties
+        public double Height { get; }
+        public double Left { get; }
+        public WindowState State { get; }
+        public double Top { get; }
+        public double Width { get; }
+        #endregion
+        #region Methods
+        public static bool operator ==(ShellSettings left, ShellSettings right) => object.Equals(left, right);
+        public static bool operator !=(ShellSettings left, ShellSettings right) => !object.Equals(left, right);
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
+            if (object.ReferenceEquals(null, obj)) return false;
+            if (object.ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((ShellSettings) obj);
+            return this.Equals((ShellSettings)obj);
         }
-
         public override int GetHashCode()
         {
             unchecked
             {
-                var hashCode = Top.GetHashCode();
-                hashCode = (hashCode*397) ^ Left.GetHashCode();
-                hashCode = (hashCode*397) ^ Width.GetHashCode();
-                hashCode = (hashCode*397) ^ Height.GetHashCode();
-                hashCode = (hashCode*397) ^ (int) State;
+                var hashCode = this.Top.GetHashCode();
+                hashCode = (hashCode * 397) ^ this.Left.GetHashCode();
+                hashCode = (hashCode * 397) ^ this.Width.GetHashCode();
+                hashCode = (hashCode * 397) ^ this.Height.GetHashCode();
+                hashCode = (hashCode * 397) ^ (int)this.State;
                 return hashCode;
             }
         }
-
-        public static bool operator ==(ShellSettings left, ShellSettings right)
+        public override string ToString() => $"Location: ({this.Top},{this.Left}).  Size({this.Width},{this.Height}). State: {this.State}";
+        public bool Equals(ShellSettings other)
         {
-            return Equals(left, right);
+            if (object.ReferenceEquals(null, other)) return false;
+            if (object.ReferenceEquals(this, other)) return true;
+            return this.Top.Equals(other.Top) && this.Left.Equals(other.Left) && this.Width.Equals(other.Width) && this.Height.Equals(other.Height) && this.State == other.State;
         }
-
-        public static bool operator !=(ShellSettings left, ShellSettings right)
-        {
-            return !Equals(left, right);
-        }
-
         #endregion
-
-        public override string ToString()
-        {
-            return $"Location: ({Top},{Left}).  Size({Width},{Height}). State: {State}";
-        }
     }
 }

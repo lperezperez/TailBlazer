@@ -2,7 +2,9 @@
 {
     public interface IPageProvider
     {
-        int PageSize { get; }
+        #region Properties
         int FirstIndex { get; }
+        int PageSize { get; }
+        #endregion
     }
 }

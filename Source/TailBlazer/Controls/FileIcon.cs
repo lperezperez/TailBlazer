@@ -1,14 +1,11 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-
-namespace TailBlazer.Controls
+﻿namespace TailBlazer.Controls
 {
-
+    using System.Windows;
+    using System.Windows.Controls;
     public class FileIcon : Control
     {
-        static FileIcon()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(FileIcon), new FrameworkPropertyMetadata(typeof(FileIcon)));
-        }
+        #region Constructors
+        static FileIcon() { DefaultStyleKeyProperty.OverrideMetadata(typeof(FileIcon), new FrameworkPropertyMetadata(typeof(FileIcon))); }
+        #endregion
     }
 }

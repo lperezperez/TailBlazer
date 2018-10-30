@@ -2,7 +2,9 @@ namespace TailBlazer.Views.Layout
 {
     public interface ILayoutService
     {
-        void Write();
+        #region Methods
         void Restore();
+        void Write();
+        #endregion
     }
 }

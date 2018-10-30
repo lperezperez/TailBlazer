@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2048
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TailBlazer", "TailBlazer\TailBlazer.csproj", "{EBF74AA2-F4C2-4AE9-A6CF-33F3414893B7}"
 EndProject
@@ -42,5 +42,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		BuildVersion_StartDate = 2000/1/1
+		SolutionGuid = {923CA872-469A-435E-8A19-6A70B24EB6F0}
 	EndGlobalSection
 EndGlobal

@@ -1,15 +1,11 @@
-﻿using System.Windows.Controls;
-
-namespace TailBlazer.Views.Searching
+﻿namespace TailBlazer.Views.Searching
 {
-    /// <summary>
-    /// Interaction logic for IconSelectorView.xaml
-    /// </summary>
+    using System.Windows.Controls;
+    /// <summary>Interaction logic for IconSelectorView.xaml</summary>
     public partial class IconSelectorView : UserControl
     {
-        public IconSelectorView()
-        {
-            InitializeComponent();
-        }
+        #region Constructors
+        public IconSelectorView() { this.InitializeComponent(); }
+        #endregion
     }
 }

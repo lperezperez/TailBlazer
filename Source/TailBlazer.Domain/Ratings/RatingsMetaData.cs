@@ -2,16 +2,19 @@
 {
     public class RatingsMetaData
     {
-
-        public static readonly RatingsMetaData Default = new RatingsMetaData(60,250);
-
-        public int FrameRate { get; }
-        public int RefreshRate { get; }
-
+        #region Fields
+        public static readonly RatingsMetaData Default = new RatingsMetaData(60, 250);
+        #endregion
+        #region Constructors
         public RatingsMetaData(int frameRate, int refreshRate)
         {
-            FrameRate = frameRate;
-            RefreshRate = refreshRate;
+            this.FrameRate = frameRate;
+            this.RefreshRate = refreshRate;
         }
+        #endregion
+        #region Properties
+        public int FrameRate { get; }
+        public int RefreshRate { get; }
+        #endregion
     }
 }

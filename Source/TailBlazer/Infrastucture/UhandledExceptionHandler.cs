@@ -1,34 +1,34 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Threading;
-using TailBlazer.Domain.Infrastructure;
-
-namespace TailBlazer.Infrastucture
+﻿namespace TailBlazer.Infrastucture
 {
+    using System;
+    using System.Windows;
+    using System.Windows.Threading;
+    using TailBlazer.Domain.Infrastructure;
     public class UhandledExceptionHandler
     {
+        #region Fields
         private readonly ILogger _logger;
-
+        #endregion
+        #region Constructors
         public UhandledExceptionHandler(ILogger logger)
         {
-            _logger = logger;
-
-            Application.Current.DispatcherUnhandledException += CurrentDispatcherUnhandledException;
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomainUnhandledException;
+            this._logger = logger;
+            Application.Current.DispatcherUnhandledException += this.CurrentDispatcherUnhandledException;
+            AppDomain.CurrentDomain.UnhandledException += this.CurrentDomainUnhandledException;
         }
-
-        private void CurrentDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            var ex = (Exception)e.ExceptionObject;
-            _logger.Error(ex, ex.Message);
-        }
-
+        #endregion
+        #region Methods
         private void CurrentDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             var ex = e.Exception;
-            _logger.Error(ex, ex.Message);
+            this._logger.Error(ex, ex.Message);
             e.Handled = true;
         }
-
+        private void CurrentDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            var ex = (Exception)e.ExceptionObject;
+            this._logger.Error(ex, ex.Message);
+        }
+        #endregion
     }
 }

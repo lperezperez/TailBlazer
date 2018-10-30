@@ -1,83 +1,65 @@
-﻿using System.IO;
-using System.Reactive.Subjects;
-using System.Windows;
-using FluentAssertions;
-using TailBlazer.Views.FileDrop;
-using Xunit;
-
-namespace TailBlazer.Fixtures
+﻿namespace TailBlazer.Fixtures
 {
+    using System.IO;
+    using System.Reactive.Subjects;
+    using System.Windows;
+    using FluentAssertions;
+    using TailBlazer.Views.FileDrop;
+    using Xunit;
     public class FileDropFixture
     {
+        #region Methods
         [Fact]
-        public void FileDropContainerShouldReturnFileNames()
+        public void FileDropContainerShouldHandleEmpty()
         {
-            var input = new[] { @"c:\temp\file1.txt", @"c:\temp\file2.txt" };
-            var expectedResult = new[] { @"file1.txt", @"file2.txt" };
+            var input = new string[0];
             var container = new FileDropContainer(input);
-
-            container.Files.Should().BeEquivalentTo(expectedResult);
+            container.Files.Should().BeEmpty();
         }
-
+        [Fact]
+        public void FileDropContainerShouldHandleNull()
+        {
+            var container = new FileDropContainer(null);
+            container.Files.Should().BeEmpty();
+        }
         [Fact]
         public void FileDropContainerShouldHandleNulls()
         {
             var input = new[] { @"c:\temp\file1.txt", null, @"c:\temp\file2.txt" };
             var expectedResult = new[] { @"file1.txt", @"file2.txt" };
             var container = new FileDropContainer(input);
-
             container.Files.Should().BeEquivalentTo(expectedResult);
         }
-
         [Fact]
-        public void FileDropContainerShouldHandleEmpty()
+        public void FileDropContainerShouldReturnFileNames()
         {
-            var input = new string[0];
-
+            var input = new[] { @"c:\temp\file1.txt", @"c:\temp\file2.txt" };
+            var expectedResult = new[] { @"file1.txt", @"file2.txt" };
             var container = new FileDropContainer(input);
-
-            container.Files.Should().BeEmpty();
+            container.Files.Should().BeEquivalentTo(expectedResult);
         }
-
-        [Fact]
-        public void FileDropContainerShouldHandleNull()
-        {
-            var container = new FileDropContainer(null);
-
-            container.Files.Should().BeEmpty();
-        }
-
         [Fact]
         public void FileDropMonitorShouldHandleNull()
         {
             var monitor = new FileDropMonitor();
-
             monitor.Receive(null);
-
         }
-
-        [Fact]
-        public void FileDropMonitorShouldOnlyUseUiElement()
-        {
-            var monitor = new FileDropMonitor();
-
-            monitor.Receive(new DependencyObject());
-
-            monitor.Dropped.Should().BeOfType<Subject<FileInfo>>();
-
-            ((Subject<FileInfo>)monitor.Dropped).HasObservers.Should().Be(false);
-        }
-
         [Fact]
         public void FileDropMonitorShouldOnlyObserveWithUiElement()
         {
             var monitor = new FileDropMonitor();
-
             monitor.Receive(new UIElement());
-
             monitor.Dropped.Should().BeOfType<Subject<FileInfo>>();
-
             ((Subject<FileInfo>)monitor.Dropped).HasObservers.Should().Be(false);
         }
+        [Fact]
+        public void FileDropMonitorShouldOnlyUseUiElement()
+        {
+            var monitor = new FileDropMonitor();
+            monitor.Receive(new DependencyObject());
+            monitor.Dropped.Should().BeOfType<Subject<FileInfo>>();
+            ((Subject<FileInfo>)monitor.Dropped).HasObservers.Should().Be(false);
+        }
+        #endregion
     }
 }

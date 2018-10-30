@@ -1,53 +1,37 @@
-﻿using System;
-
-namespace TailBlazer.Infrastucture
+﻿namespace TailBlazer.Infrastucture
 {
+    using System;
     public class HeaderedView : IEquatable<HeaderedView>
     {
-        public Guid Id { get; } = Guid.NewGuid();
-        
+        #region Constructors
         public HeaderedView(object header, object content)
         {
-            Header = header;
-            Content = content;
+            this.Header = header;
+            this.Content = content;
         }
-        
-        public object Header { get; }
-
+        #endregion
+        #region Properties
         public object Content { get; }
-
-        #region Equality
-
-        public bool Equals(HeaderedView other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return Id.Equals(other.Id);
-        }
-
+        public object Header { get; }
+        public Guid Id { get; } = Guid.NewGuid();
+        #endregion
+        #region Methods
+        public static bool operator ==(HeaderedView left, HeaderedView right) => object.Equals(left, right);
+        public static bool operator !=(HeaderedView left, HeaderedView right) => !object.Equals(left, right);
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
+            if (object.ReferenceEquals(null, obj)) return false;
+            if (object.ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((HeaderedView) obj);
+            return this.Equals((HeaderedView)obj);
         }
-
-        public override int GetHashCode()
+        public override int GetHashCode() => this.Id.GetHashCode();
+        public bool Equals(HeaderedView other)
         {
-            return Id.GetHashCode();
+            if (object.ReferenceEquals(null, other)) return false;
+            if (object.ReferenceEquals(this, other)) return true;
+            return this.Id.Equals(other.Id);
         }
-
-        public static bool operator ==(HeaderedView left, HeaderedView right)
-        {
-            return Equals(left, right);
-        }
-
-        public static bool operator !=(HeaderedView left, HeaderedView right)
-        {
-            return !Equals(left, right);
-        }
-
         #endregion
     }
 }

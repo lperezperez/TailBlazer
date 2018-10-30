@@ -1,13 +1,11 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-
-namespace TailBlazer.Controls
+﻿namespace TailBlazer.Controls
 {
+    using System.Windows;
+    using System.Windows.Controls;
     public class TailBlazerIcon : Control
     {
-        static TailBlazerIcon()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(TailBlazerIcon), new FrameworkPropertyMetadata(typeof(TailBlazerIcon)));
-        }
+        #region Constructors
+        static TailBlazerIcon() { DefaultStyleKeyProperty.OverrideMetadata(typeof(TailBlazerIcon), new FrameworkPropertyMetadata(typeof(TailBlazerIcon))); }
+        #endregion
     }
 }

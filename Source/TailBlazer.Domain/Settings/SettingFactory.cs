@@ -1,33 +1,31 @@
-using System;
-using TailBlazer.Domain.Infrastructure;
-
 namespace TailBlazer.Domain.Settings
 {
+    using System;
+    using TailBlazer.Domain.Infrastructure;
     public class SettingFactory : ISettingFactory
     {
-        private readonly IObjectProvider _objectProvider;
+        #region Fields
         private readonly ILogFactory _logFactory;
+        private readonly IObjectProvider _objectProvider;
         private readonly ISettingsStore _settingsStore;
-
-        public SettingFactory(IObjectProvider objectProvider, 
-            ILogFactory logFactory,
-            ISettingsStore settingsStore)
+        #endregion
+        #region Constructors
+        public SettingFactory(IObjectProvider objectProvider, ILogFactory logFactory, ISettingsStore settingsStore)
         {
             if (objectProvider == null) throw new ArgumentNullException(nameof(objectProvider));
             if (logFactory == null) throw new ArgumentNullException(nameof(logFactory));
-
-            _objectProvider = objectProvider;
-            _logFactory = logFactory;
-            _settingsStore = settingsStore;
+            this._objectProvider = objectProvider;
+            this._logFactory = logFactory;
+            this._settingsStore = settingsStore;
         }
-
+        #endregion
+        #region Methods
         public ISetting<T> Create<T>(IConverter<T> converter, string key)
         {
             //TODO: Cache stored setting and retrive if required elsewhere
-            var setting = new Setting<T>(_logFactory.Create<T>(),_settingsStore, converter,key);
-
+            var setting = new Setting<T>(this._logFactory.Create<T>(), this._settingsStore, converter, key);
             return setting;
         }
-
+        #endregion
     }
 }

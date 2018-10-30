@@ -1,16 +1,17 @@
 ﻿namespace TailBlazer.Infrastucture.Virtualisation
-
 {
     public class ScrollChangedArgs
     {
-        public ScrollDirection Direction { get; }
-        public int Value { get; }
-
+        #region Constructors
         public ScrollChangedArgs(ScrollDirection scrollDirection, int value)
         {
-            Direction = scrollDirection;
-            Value = value;
+            this.Direction = scrollDirection;
+            this.Value = value;
         }
-
+        #endregion
+        #region Properties
+        public ScrollDirection Direction { get; }
+        public int Value { get; }
+        #endregion
     }
 }

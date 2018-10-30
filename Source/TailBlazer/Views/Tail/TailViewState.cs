@@ -1,27 +1,25 @@
-using System.Collections.Generic;
-using TailBlazer.Views.Searching;
-
 namespace TailBlazer.Views.Tail
 {
+    using System.Collections.Generic;
+    using TailBlazer.Views.Searching;
     public sealed class TailViewState
     {
+        #region Fields
         public static readonly TailViewState Empty = new TailViewState();
-
-        public string FileName { get; }
-        public string SelectedSearch { get; }
-
-        public IEnumerable<SearchState> SearchItems { get; }
-
+        #endregion
+        #region Constructors
         public TailViewState(string fileName, string selectedSearch, IEnumerable<SearchState> searchItems)
         {
-            FileName = fileName;
-            SelectedSearch = selectedSearch;
-            SearchItems = searchItems;
+            this.FileName = fileName;
+            this.SelectedSearch = selectedSearch;
+            this.SearchItems = searchItems;
         }
-
-        private TailViewState()
-        {
-            
-        }
+        private TailViewState() { }
+        #endregion
+        #region Properties
+        public string FileName { get; }
+        public IEnumerable<SearchState> SearchItems { get; }
+        public string SelectedSearch { get; }
+        #endregion
     }
 }

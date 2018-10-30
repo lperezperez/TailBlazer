@@ -2,13 +2,16 @@ namespace TailBlazer.Domain.FileHandling
 {
     public sealed class Page
     {
-        public int Start { get;  }
-        public int Size { get;  }
-
+        #region Constructors
         public Page(int start, int size)
         {
-            Start = start;
-            Size = size;
+            this.Start = start;
+            this.Size = size;
         }
+        #endregion
+        #region Properties
+        public int Size { get; }
+        public int Start { get; }
+        #endregion
     }
 }

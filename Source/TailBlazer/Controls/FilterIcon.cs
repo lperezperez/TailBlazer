@@ -1,15 +1,11 @@
-﻿
-using System.Windows;
-using System.Windows.Controls;
-
-namespace TailBlazer.Controls
+﻿namespace TailBlazer.Controls
 {
-
+    using System.Windows;
+    using System.Windows.Controls;
     public class FilterIcon : Control
     {
-        static FilterIcon()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(FilterIcon), new FrameworkPropertyMetadata(typeof(FilterIcon)));
-        }
+        #region Constructors
+        static FilterIcon() { DefaultStyleKeyProperty.OverrideMetadata(typeof(FilterIcon), new FrameworkPropertyMetadata(typeof(FilterIcon))); }
+        #endregion
     }
 }
